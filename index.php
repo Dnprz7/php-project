@@ -1,94 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+require_once 'autoload.php';
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market</title>
-    <link rel="stylesheet" href="assets/css/styles.css">
-</head>
+if ($_GET['controller']) {
+    $controllerName = $_GET['controller'] . 'Controller';
+} else {
+    echo 'La pagina no existe';
+    exit();
+}
 
-<body>
-    <div id="container">
-        <header id="header">
-            <div id="logo">
-                <img src="assets/img/camiseta.png" alt="Camiseta Logo">
-                <a href="index.php">
-                    Tienda de camisetas
-                </a>
-            </div>
-        </header>
-        <nav id="menu">
-            <ul>
-                <li>
-                    <a href="">Inicio</a>
-                </li>
-                <li>
-                    <a href="">Categoria 1</a>
-                </li>
-                <li>
-                    <a href="">Categoria 2</a>
-                </li>
-                <li>
-                    <a href="">Categoria 3</a>
-                </li>
-                <li>
-                    <a href="">Categoria 4</a>
-                </li>
-                <li>
-                    <a href="">Categoria 5</a>
-                </li>
-            </ul>
-        </nav>
-        <div id="content">
-            <aside id="lateral">
-                <div id="login" class="block_aside">
-                    <h3>Login</h3>
-                    <form action="" method="post">
-                        <label for="email"></label>
-                        <input type="email" name="email" placeholder="Email">
+if (isset($controllerName) && class_exists($controllerName)) {
 
-                        <label for="password"></label>
-                        <input type="password" name="password" placeholder="Password">
+    $controller = new $controllerName();
 
-                        <input type="submit" value="Send">
-                    </form>
-                    <ul>
-                        <li><a href="">Mis pedidos</a></li>
-                        <li><a href="">Gestionar pedidos</a></li>
-                        <li><a href="">Gestionar categorias</a></li>
-                    </ul>
-
-                </div>
-            </aside>
-            <div id="central">
-                <h1>Productos destacados</h1>
-                <div class="product">
-                    <img src="assets/img/camiseta.png" alt="">
-                    <h2>Camisa azul</h2>
-                    <p>30 $</p>
-                    <a href="" class="button">Comprar</a>
-                </div>
-                <div class="product">
-                    <img src="assets/img/camiseta.png" alt="">
-                    <h2>Camisa Azul XL</h2>
-                    <p>30 $</p>
-                    <a href="" class="button">Comprar</a>
-                </div>
-                <div class="product">
-                    <img src="assets/img/camiseta.png" alt="">
-                    <h2>Camisa Azul XL</h2>
-                    <p>30 $</p>
-                    <a href="" class="button">Comprar</a>
-                </div>
-            </div>
-        </div>
-
-        <footer id="footer">
-            <p>Desarrollado por Daniel Perez CI &copy <?= date('Y') ?></p>
-        </footer>
-        
-    </div>
-</body>
-
-</html>
+    if ($_GET['action'] && method_exists($controller, $_GET['action'])) {
+        $action = $_GET['action'];
+        $controller->$action();
+    } else {
+        echo 'La pagina no existe';
+    }
+} else {
+    echo 'La pagina no existe';
+}
