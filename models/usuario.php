@@ -39,7 +39,7 @@ class Usuario
 
     function getPassword()
     {
-        return password_hash($this->db->real_escape_string($this->password), PASSWORD_BCRYPT,['cost' => 4]) ;
+        return password_hash($this->db->real_escape_string($this->password), PASSWORD_BCRYPT, ['cost' => 4]);
     }
 
     function getRol()
@@ -101,8 +101,9 @@ class Usuario
         return $result;
     }
 
-    public function login(){
-        
+    public function login()
+    {
+
         $result = false;
         $email = $this->email;
         $password = $this->password;
@@ -118,12 +119,12 @@ class Usuario
 
         //Verificar la password
 
-        $verify = password_verify($password,$usuario->password);
-        
+        $verify = password_verify($password, $usuario->password);
+
 
         if ($verify && $login->num_rows == 1) {
             $result = $usuario;
-        }else{
+        } else {
 
         }
 
