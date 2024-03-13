@@ -23,6 +23,8 @@ class UsuarioController
             $password = isset($_POST['password']) ? $_POST['password'] : false;
 
             if($nombre && $apellidos && $email && $password){
+
+
                 $usuario = new Usuario();
                 $usuario->setNombre($nombre);
                 $usuario->setApellidos($apellidos);
@@ -35,6 +37,8 @@ class UsuarioController
                 }else{
                     $_SESSION['register'] = 'failed';
                 }   
+
+
             }else{
                 $_SESSION['register'] = 'failed';
             }         
@@ -43,4 +47,50 @@ class UsuarioController
         }
         header('Location:'.base_url.'usuario/registro');
     }
+
+
+    public function login(){
+        if (isset($_POST)) {
+            //Identificar al usuario
+            
+            
+            //Consulta a la db
+            $usuario = new Usuario();
+            $usuario->setEmail($_POST['email']);
+            $usuario->setPassword($_POST['password']);
+            
+            $identity = $usuario->login(); //hace la consulta y nos devuelve el objeto del usuario identificado
+            //Utilizar las sesiones para mantener al usuario identificado
+            if ($identity && is_object($identity)) {
+                $_SESSION['identity'] = $identity;
+
+                if ($identity->rol == 'admin') {
+                    $_SESSION['admin'] = true;
+                }
+
+            }else{
+                $_SESSION['error_login'] = 'Identificacion fallida';
+            }
+
+
+            //Crear una sesion
+        }
+        header('Location:'.base_url);
+    }
+
+    public function logout(){
+        if (isset($_SESSION['identity'])) {
+            unset( $_SESSION['identity'] );
+        }
+
+        if (isset($_SESSION['admin'])) {
+            unset( $_SESSION['admin'] );
+        }
+
+
+        header('Location:'.base_url);
+
+    }
+
+
 }
