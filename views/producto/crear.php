@@ -1,36 +1,45 @@
-<h1>Crear nuevos productos</h1>
+<?php if (isset($edit) && isset($pro) && is_object($pro)): ?>
+    <h1>Editar producto
+        <?= $pro->nombre ?>
+    </h1>
+    <?php $url_action = base_url . "producto/save&id=" . $pro->id; ?>
+
+<?php else: ?>
+    <h1>Crear nuevo producto</h1>
+    <?php $url_action = base_url . "producto/save"; ?>
+<?php endif; ?>
+
 <div class="form_container">
-    <form action="<?= base_url ?>producto/save" method="post">
 
-        <label for="nombre"></label>
-        <input type="text" name="nombre" placeholder="Nombre">
+    <form action="<?= $url_action ?>" method="POST" enctype="multipart/form-data">
+        <label for="nombre">Nombre</label>
+        <input type="text" name="nombre" value="<?= isset($pro) && is_object($pro) ? $pro->nombre : ''; ?>" />
 
-        <label for="descripcion"></label>
-        <textarea name="descripcion" placeholder="Descripcion"></textarea>
+        <label for="descripcion">Descripción</label>
+        <textarea name="descripcion"><?= isset($pro) && is_object($pro) ? $pro->descripcion : ''; ?></textarea>
 
-        <label for="precio"></label>
-        <input type="number" name="precio" placeholder=0>
+        <label for="precio">Precio</label>
+        <input type="text" name="precio" value="<?= isset($pro) && is_object($pro) ? $pro->precio : ''; ?>" />
 
-        <label for="stock"></label>
-        <input type="number" name="stock" placeholder=0>
+        <label for="stock">Stock</label>
+        <input type="number" name="stock" value="<?= isset($pro) && is_object($pro) ? $pro->stock : ''; ?>" />
 
-        <label for="categoria"></label>
+        <label for="categoria">Categoria</label>
         <?php $categorias = Utils::showCategorias(); ?>
-
         <select name="categoria">
             <?php while ($cat = $categorias->fetch_object()): ?>
-                <option value="<?= $cat->id ?>">
-                    <a href="">
-                        <?= $cat->nombre ?>
-                    </a>
+                <option value="<?= $cat->id ?>" <?= isset($pro) && is_object($pro) && $cat->id == $pro->categoria_id ? 'selected' : ''; ?>>
+                    <?= $cat->nombre ?>
                 </option>
             <?php endwhile; ?>
         </select>
 
-        <label for="imagen"></label>
-        <input type="file" name="imagen">
+        <label for="imagen">Imagen</label>
+        <?php if (isset($pro) && is_object($pro) && !empty($pro->imagen)): ?>
+            <img src="<?= base_url ?>uploads/images/<?= $pro->imagen ?>" class="thumb" />
+        <?php endif; ?>
+        <input type="file" name="imagen" />
 
-        <input type="submit" value="Save">
-
+        <input type="submit" value="Guardar" />
     </form>
 </div>
