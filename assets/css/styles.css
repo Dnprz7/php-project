@@ -234,7 +234,7 @@ button,
 }
 
 .button {
-    background: #33AE3D;
+    background: #166fff;
     color: white !important;
     text-decoration: none;
 }
@@ -251,8 +251,8 @@ button,
 }
 
 .button-red {
-    background: red;
-    border: 1px solid #cf1717;
+    background: #166fff;
+    border: 1px solid black;
 }
 
 label,

@@ -1,6 +1,6 @@
 <h1>Carrito de la compra</h1>
 
-<?php if(isset($_SESSION['carrito']) && count($_SESSION['carrito']) >= 1): ?>
+<?php if(isset($_SESSION['carrito']) && count($_SESSION['carrito']) > 0): ?>
 <table>
 	<tr>
 		<th>Imagen</th>
